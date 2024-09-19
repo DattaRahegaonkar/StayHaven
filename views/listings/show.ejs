@@ -30,6 +30,8 @@
         <form method="post" action="/stayhaven/<%= list._id %>?_method=DELETE"><button class="btn btn-dark dbtn">Delete</button></form>
     </div>
     <hr>
+    <% } else { %>
+        <form method="get" action="/stayhaven/<%= list._id %>"><button class="add-btn btn btn-dark">Book</button></form><br>
     <% } %>
 
     <div>

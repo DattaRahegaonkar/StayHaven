@@ -14,9 +14,9 @@ StayHaven is a user-friendly hotel booking platform designed to simplify the pro
 
 
 # Technologies Used 
-- Frontend: HTML, CSS, JavaScript, BootStrap
-- Backend: Node.js, Express.js
-- Database: MongoDB(Atlas)
+- **Frontend**: HTML, CSS, JavaScript, BootStrap
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB(Atlas)
 - Templating Engine: EJS
 - Mapping: Mapbox API
 

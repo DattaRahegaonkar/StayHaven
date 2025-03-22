@@ -6,7 +6,7 @@ const ejsmate = require("ejs-mate");
 const path = require("path");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -22,8 +22,10 @@ app.engine("ejs", ejsmate);
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
+
 const userRouter = require("./routes/user.js");
 const { log } = require("console");
+const listing = require("./models/listing.js");
 
 // const Airbnb = "mongodb://127.0.0.1:27017/Airbnb";
 
@@ -37,7 +39,7 @@ async function main() {
 }
 
 const store = MongoStore.create({
-  mongoUrl: dburl,
+mongoUrl: dburl,
   crypto: {
     secret: process.env.SECRET,
   },
@@ -45,7 +47,7 @@ const store = MongoStore.create({
 });
 
 store.on("error", () => {
-  console.log("error in store", err);  
+  console.log("error in store", err);
 })
 
 const sessionoptions = {
@@ -75,6 +77,24 @@ app.use((req, res, next) => {
   res.locals.errormsg = req.flash("error");
   res.locals.currentUser = req.user;
   next();
+});
+
+app.get("/search", async (req, res) => {
+
+  try {
+    let searchlist = await listing.find({
+      $or: [
+        {
+          title: { $regex: req.query.key, $options: "i"},
+        },
+      ],
+    });
+  
+    res.render("listings/searchlist.ejs", { searchlist });
+    
+  } catch (error) {
+    
+  }
 });
 
 app.use("/stayhaven", listingRouter);

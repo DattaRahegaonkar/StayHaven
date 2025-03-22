@@ -39,7 +39,7 @@ async function main() {
 }
 
 const store = MongoStore.create({
-mongoUrl: dburl,
+  mongoUrl: dburl,
   crypto: {
     secret: process.env.SECRET,
   },
@@ -48,7 +48,7 @@ mongoUrl: dburl,
 
 store.on("error", () => {
   console.log("error in store", err);
-})
+});
 
 const sessionoptions = {
   store,
@@ -80,21 +80,17 @@ app.use((req, res, next) => {
 });
 
 app.get("/search", async (req, res) => {
-
   try {
     let searchlist = await listing.find({
       $or: [
         {
-          title: { $regex: req.query.key, $options: "i"},
+          title: { $regex: req.query.key, $options: "i" },
         },
       ],
     });
-  
+
     res.render("listings/searchlist.ejs", { searchlist });
-    
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 });
 
 app.use("/stayhaven", listingRouter);
